@@ -11,8 +11,9 @@ import pl.mroziqella.example.chat.client.view.Timer.*;
 public class ChatWidget extends VerticalPanel {
     private TextArea allMessages;
     private TextBox message;
-    private TextBox login;
-    private static final int REFRESH_INTERVAL = 100;
+    private ListBox allUsersList;
+
+    private static final int REFRESH_INTERVAL = 1000;
 
     public ChatWidget() {
         super();
@@ -20,23 +21,23 @@ public class ChatWidget extends VerticalPanel {
         Grid gridBottom = new Grid(1,3);
         Grid gridTop = new Grid(1,2);
         Label messageLabel= new Label("Wiadomość: ");
-        Label loginLabel= new Label("Login: ");
+
         Button sendButton = new Button("Wyślij");
 
-
-        login = new TextBox();
+        allUsersList = new ListBox();
         message = new TextBox();
         allMessages = new TextArea();
         allMessages.setSize("400px","200px");
-        sendButton.addClickHandler(new SendButtonListener(allMessages,message, login));
+        sendButton.addClickHandler(new SendButtonListener(allMessages,message));
 
-        gridTop.setWidget(0,0,loginLabel);
-        gridTop.setWidget(0,1,login);
+        gridTop.setWidget(0,0,allUsersList);
+        allUsersList.setVisibleItemCount(10);
+
         gridBottom.setWidget(0,0,messageLabel);
         gridBottom.setWidget(0,1,message);
         gridBottom.setWidget(0,2,sendButton);
 
-        Timer refreshTimerMessages = new RefreshTimerMessages(allMessages);
+        Timer refreshTimerMessages = new RefreshTimerMessages(allMessages, allUsersList);
         refreshTimerMessages.scheduleRepeating(REFRESH_INTERVAL);
 
         verticalPanel.add(gridTop);

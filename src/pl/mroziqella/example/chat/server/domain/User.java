@@ -13,11 +13,23 @@ import java.io.*;
 @Entity
 @Table(name="uzytkownik")
 public class User implements Serializable{
+
+
     @Id
     private String login;
 
     private String password;
+    @Transient
     private String password2;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User() {
+
+    }
 
     public String getPassword2() {
         return password2;

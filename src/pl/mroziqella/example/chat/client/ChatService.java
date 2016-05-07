@@ -3,6 +3,8 @@ package pl.mroziqella.example.chat.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import pl.mroziqella.example.chat.client.Throws.*;
+import pl.mroziqella.example.chat.client.model.Messages;
 
 import java.util.*;
 
@@ -11,8 +13,10 @@ public interface ChatService extends RemoteService {
     // Sample interface method of remote interface
     void setMessage(String msg);
 
-    boolean userAccountExists(String login,String password);
-    ArrayList<String> getMessages();
+    boolean userAccountExists(String login,String password)throws InvalidPassword;
+    void addUser(String login, String password);
+    Messages getMessages() ;
+    void removeUserfromTheList(String login);
 
     /**
      * Utility/Convenience class.

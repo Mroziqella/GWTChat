@@ -16,7 +16,7 @@ public class ObservableDemo implements Observer {
 
         // trigger value change
         watched.setValue("hahha");
-        watched.setValue("kurwa");
+        watched.setValue("hh");
 
     }
 

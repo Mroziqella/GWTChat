@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
 import pl.mroziqella.example.chat.client.*;
+import pl.mroziqella.example.chat.client.model.*;
 
 /**
  * Created by Kamil on 04/05/2016.
@@ -12,20 +13,24 @@ import pl.mroziqella.example.chat.client.*;
 public class SendButtonListener implements ClickHandler{
     private final TextArea allMessages;
     private final TextBox message;
-    private final TextBox login;
 
-    public SendButtonListener(TextArea allMessages, TextBox message, TextBox login) {
+
+    public SendButtonListener(TextArea allMessages, TextBox message) {
         this.allMessages = allMessages;
         this.message=message;
-        this.login = login;
     }
 
     @Override
     public void onClick(ClickEvent event) {
-        ChatService.App.getInstance().setMessage(login.getText()+": "+message.getText(),new MyAsyncCallback(allMessages));
+        allMessages.setText(allMessages.getText()+Chat.getLoginSession()+": "+message.getText()+"\n");
+        scrollToBottom(allMessages.getElement());
+        ChatService.App.getInstance().setMessage(Chat.getLoginSession()+": "+message.getText(),new MyAsyncCallback(allMessages));
+        message.setText("");
 
     }
-
+    public static void scrollToBottom(com.google.gwt.dom.client.Element element) {
+        element.setScrollTop(element.getScrollHeight());
+    }
 
     private static class MyAsyncCallback implements AsyncCallback<Void> {
         private TextArea textArea;
@@ -41,12 +46,10 @@ public class SendButtonListener implements ClickHandler{
 
         @Override
         public void onSuccess(Void result) {
-            scrollToBottom(textArea.getElement());
+
 
         }
-        public static void scrollToBottom(Element element) {
-            element.setScrollTop(element.getScrollHeight());
-        }
+
 
 
     }

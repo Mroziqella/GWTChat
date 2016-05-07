@@ -2,16 +2,14 @@ package pl.mroziqella.example.chat.server;
 
 import com.google.gwt.user.server.rpc.*;
 import pl.mroziqella.example.chat.client.*;
-import pl.mroziqella.example.chat.server.model.*;
+import pl.mroziqella.example.chat.client.Throws.*;
+import pl.mroziqella.example.chat.client.model.*;
 import pl.mroziqella.example.chat.server.domain.*;
+import pl.mroziqella.example.chat.server.repository.*;
 
-import javax.persistence.*;
-import java.util.*;
-import java.util.logging.*;
 
 
 public class ChatServiceImpl extends RemoteServiceServlet implements ChatService {
-    private static Logger logger = Logger.getLogger("Test: 111111111111111111111111111111111111111111111111");
 
     // Implementation of sample interface method
 
@@ -20,30 +18,28 @@ public class ChatServiceImpl extends RemoteServiceServlet implements ChatService
     }
 
     @Override
-    public boolean userAccountExists(String login, String password) {
-        logger.info(login);
-        User user;
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myDatabase");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        entityManager.getTransaction().begin();
-        user = entityManager.find(User.class, login);
-        logger.info(user.getLogin());
-
-        entityManager.getTransaction().commit();
-
-
-        entityManager.close();
-        entityManagerFactory.close();
+    public boolean userAccountExists(String login, String password) throws InvalidPassword{
+        User user = new UserRepository().getUser(login);
         if (user.getPassword().equals(password)) {
+            Messages.getInstance().addUsersToList(login);
             return true;
         }
-        return false;
+        throw new InvalidPassword("Error in login");
 
     }
 
     @Override
-    public ArrayList<String> getMessages() {
-        return Messages.getInstance().getMessages();
+    public void addUser(String login, String password) {
+        new UserRepository().addUser(new User(login,password));
+    }
+
+    @Override
+    public Messages getMessages() {
+        return Messages.getInstance();
+    }
+
+    @Override
+    public void removeUserfromTheList(String login) {
+        Messages.getInstance().removeUser(login);
     }
 }
