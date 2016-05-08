@@ -41,7 +41,7 @@ public class SendButtonListener implements ClickHandler{
 
 
         public void onFailure(Throwable throwable) {
-            textArea.setText("Failed to receive answer from server!");
+            textArea.setText("Brak połączenia z serwerem");
         }
 
         @Override

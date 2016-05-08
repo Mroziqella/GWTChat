@@ -1,7 +1,11 @@
 package pl.mroziqella.example.chat.client.view;
 
+import com.google.gwt.cell.client.*;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.view.client.*;
+import pl.mroziqella.example.chat.client.*;
 import pl.mroziqella.example.chat.client.view.listeners.*;
 import pl.mroziqella.example.chat.client.view.Timer.*;
 
@@ -10,39 +14,57 @@ import pl.mroziqella.example.chat.client.view.Timer.*;
  */
 public class ChatWidget extends VerticalPanel {
     private TextArea allMessages;
-    private TextBox message;
-    private ListBox allUsersList;
+    private TextBox messageBox;
+    private CellList<String> allUsersList;
 
     private static final int REFRESH_INTERVAL = 1000;
 
     public ChatWidget() {
         super();
+        RootPanel.get("slot1").add(new Label("Zalogowano jako: "+Chat.getLoginSession()));
         VerticalPanel verticalPanel = new VerticalPanel();
+        HorizontalPanel horizontalPanel =  new HorizontalPanel();
         Grid gridBottom = new Grid(1,3);
         Grid gridTop = new Grid(1,2);
         Label messageLabel= new Label("Wiadomość: ");
 
-        Button sendButton = new Button("Wyślij");
 
-        allUsersList = new ListBox();
-        message = new TextBox();
+        Button sendButton = new Button("Wyślij");
+        TextCell textCell = new TextCell();
+        allUsersList = new CellList<String>(textCell);
+
+        messageBox = new TextBox();
+        messageBox.setSize("300px","20px");
+        messageBox.getElement().setPropertyString("placeholder", "Wpisz wiadomość");
         allMessages = new TextArea();
         allMessages.setSize("400px","200px");
-        sendButton.addClickHandler(new SendButtonListener(allMessages,message));
+        sendButton.addClickHandler(new SendButtonListener(allMessages,messageBox));
 
-        gridTop.setWidget(0,0,allUsersList);
-        allUsersList.setVisibleItemCount(10);
 
         gridBottom.setWidget(0,0,messageLabel);
-        gridBottom.setWidget(0,1,message);
+        gridBottom.setWidget(0,1,messageBox);
         gridBottom.setWidget(0,2,sendButton);
 
         Timer refreshTimerMessages = new RefreshTimerMessages(allMessages, allUsersList);
         refreshTimerMessages.scheduleRepeating(REFRESH_INTERVAL);
 
         verticalPanel.add(gridTop);
-        verticalPanel.add(allMessages);
+
+        horizontalPanel.add(allMessages);
+        horizontalPanel.setBorderWidth(10);
+        allUsersList.setSize("50px","200px");
+        horizontalPanel.add(allUsersList);
+        verticalPanel.add(horizontalPanel);
+
         verticalPanel.add(gridBottom);
+
+        allUsersList.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        SingleSelectionModel<String> selectionModel = new SingleSelectionModel<>();
+        allUsersList.setSelectionModel(selectionModel);
+        selectionModel.addSelectionChangeHandler(new SelectUser(selectionModel));
+
+
+
         this.add(verticalPanel);
 
 

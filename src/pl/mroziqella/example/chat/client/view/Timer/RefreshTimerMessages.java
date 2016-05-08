@@ -1,6 +1,7 @@
 package pl.mroziqella.example.chat.client.view.Timer;
 
 
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
@@ -13,9 +14,9 @@ import pl.mroziqella.example.chat.client.model.*;
  */
 public class RefreshTimerMessages extends Timer {
     private TextArea allMessages;
-    private ListBox allUsersList;
+    private CellList<String>  allUsersList;
 
-    public RefreshTimerMessages(TextArea allMessages, ListBox allUsersList) {
+    public RefreshTimerMessages(TextArea allMessages, CellList<String> allUsersList) {
         super();
         this.allMessages = allMessages;
         this.allUsersList = allUsersList;
@@ -30,17 +31,17 @@ public class RefreshTimerMessages extends Timer {
 
     private static class MyAsyncCallback implements AsyncCallback<Messages> {
         private TextArea textArea;
-        private ListBox listBox;
+        private CellList<String> cellList;
 
-        public MyAsyncCallback(TextArea textArea, ListBox listBox) {
+        public MyAsyncCallback(TextArea textArea, CellList<String> cellList) {
             this.textArea = textArea;
 
-            this.listBox = listBox;
+            this.cellList = cellList;
         }
 
 
         public void onFailure(Throwable throwable) {
-            textArea.setText("Failed to receive answer from server!");
+            textArea.setText("Brak połączenia z serwerem");
         }
 
         @Override
@@ -51,11 +52,9 @@ public class RefreshTimerMessages extends Timer {
                 }
                 textArea.setText(tmp);
                 scrollToBottom(textArea.getElement());
-                listBox.clear();
-                for (String x:result.getUsers()){
-                    listBox.addItem(x);
-                }
 
+            cellList.setRowCount(result.getUsers().size(), true);
+            cellList.setRowData(0, result.getUsers());
 
         }
         public static void scrollToBottom(com.google.gwt.dom.client.Element element) {

@@ -12,7 +12,6 @@ import java.util.logging.*;
  */
 public class LoginWidget extends VerticalPanel  {
     private TextBox login = new TextBox();
-    private Label errorDisplayLabel = new Label();
     private PasswordTextBox password = new PasswordTextBox();
 
     public LoginWidget() {
@@ -22,7 +21,6 @@ public class LoginWidget extends VerticalPanel  {
         Button registerButton = new Button("Zarejestruj");
 
         Grid grid = new Grid(4, 1);
-        grid.setWidget(0, 0, errorDisplayLabel);
         grid.setWidget(1, 0, login);
         grid.setWidget(2, 0, password);
         HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -30,7 +28,7 @@ public class LoginWidget extends VerticalPanel  {
         horizontalPanel.add(registerButton);
         grid.setWidget(3,0,horizontalPanel);
 
-        loginButton.addClickHandler(new ClickButtonLogin(errorDisplayLabel,login,password));
+        loginButton.addClickHandler(new ClickButtonLogin(login,password));
         registerButton.addClickHandler(new ClickButtonRegister());
         this.add(grid);
 

@@ -15,7 +15,7 @@ public interface ChatService extends RemoteService {
 
     boolean userAccountExists(String login,String password)throws InvalidPassword;
     void addUser(String login, String password);
-    Messages getMessages() ;
+    Messages getMessages();
     void removeUserfromTheList(String login);
 
     /**

@@ -1,14 +1,18 @@
 package pl.mroziqella.example.chat.client;
 
+import com.google.gwt.cell.client.*;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.impl.*;
 import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.view.client.*;
 import pl.mroziqella.example.chat.client.model.*;
 import pl.mroziqella.example.chat.client.view.*;
 
+import java.util.*;
 import java.util.logging.*;
 
 /**
@@ -21,7 +25,6 @@ public class Chat implements EntryPoint {
     public static String getLoginSession() {
         return loginSession;
     }
-
     public static void serLoginSession(String login) {
         Chat.loginSession = login;
     }
