@@ -16,6 +16,9 @@ import java.util.*;
  * Created by Kamil on 04/05/2016.
  */
 public class RefreshTimerMessages extends Timer {
+    private static final DialogBox dialogBox = new DialogBox();
+    private static  InviteWidget inviteWidget;
+    private static String tmpResult;
     private TextArea allMessages;
     private CellList<String> allUsersList;
 
@@ -62,28 +65,43 @@ public class RefreshTimerMessages extends Timer {
             cellList.setRowCount(result.getUsers(Chat.getRoomName()).size(), true);
             cellList.setRowData(0, new LinkedList<>(result.getUsers(Chat.getRoomName())));
 
-            ChatService.App.getInstance().isInfo(Chat.getLoginSession(),new MyAsyncCallbackInfo());
-
+            ChatService.App.getInstance().isInfo(Chat.getLoginSession(), new MyAsyncCallbackInfo());
 
 
         }
 
 
         private static class MyAsyncCallbackInfo implements AsyncCallback<String> {
-            public void onFailure(Throwable throwable){}
+            public void onFailure(Throwable throwable) {
+            }
+
             @Override
             public void onSuccess(String result) {
 
-                if(result!=null) {
-//                    DialogBox dialogBox = new DialogBox();
-//                    InviteWidget inviteWidget =new InviteWidget(result);
-//                    dialogBox.add(inviteWidget);
-//                    dialogBox.center();
-//                    Chat.setRoomName(result);
+                if (result != null) {
+                    inviteWidget = new InviteWidget(result);
+                    dialogBox.add(inviteWidget);
+                    tmpResult=result;
+                    dialogBox.center();
+                    dialogBox.show();
+
+                }
+                if (inviteWidget.isAcceptInvite()) {
+                    Chat.setRoomName(tmpResult);
+                    dialogBox.remove(inviteWidget);
+                    dialogBox.hide();
+                    inviteWidget=null;
+                    InviteWidget.setAcceptInvite(null);
                     RootPanel.get("slot1").clear();
                     RootPanel.get("slot2").clear();
                     RootPanel.get("slot1").add(new ChatWidget());
 
+                }
+                else if (inviteWidget.isAcceptInvite()==false){
+                    dialogBox.remove(inviteWidget);
+                    inviteWidget=null;
+                    InviteWidget.setAcceptInvite(null);
+                    dialogBox.hide();
                 }
             }
         }

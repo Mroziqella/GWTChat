@@ -23,6 +23,14 @@ public class ClickButtonLogin implements ClickHandler {
         this.password = password;
     }
 
+    public ClickButtonLogin(String login, String password) {
+        this.login = new TextBox();
+        this.password = new TextBox();
+        this.login.setText(login);
+        this.password.setText(password);
+
+    }
+
     @Override
     public void onClick(ClickEvent event) {
             RootPanel.get("slot1").clear();

@@ -25,7 +25,7 @@ public class ChatWidget extends VerticalPanel {
         RootPanel.get("slot1").add(new Label("Zalogowano jako: "+Chat.getLoginSession()));
         VerticalPanel verticalPanel = new VerticalPanel();
         HorizontalPanel horizontalPanel =  new HorizontalPanel();
-        Grid gridBottom = new Grid(1,3);
+        Grid gridBottom = new Grid(1,4);
         Grid gridTop = new Grid(1,2);
         Label messageLabel= new Label("Wiadomość: ");
 
@@ -41,10 +41,13 @@ public class ChatWidget extends VerticalPanel {
         allMessages.setSize("400px","200px");
         sendButton.addClickHandler(new SendButtonListener(allMessages,messageBox));
 
+        Button button =  new Button("Pokój główny");
+        button.addClickHandler(new ClickButtonLogin(Chat.getLoginSession(),Chat.getPassword()));
 
         gridBottom.setWidget(0,0,messageLabel);
         gridBottom.setWidget(0,1,messageBox);
         gridBottom.setWidget(0,2,sendButton);
+        gridBottom.setWidget(0,3,button);
 
         Timer refreshTimerMessages = new RefreshTimerMessages(allMessages, allUsersList);
         refreshTimerMessages.scheduleRepeating(REFRESH_INTERVAL);
