@@ -27,7 +27,9 @@ public class ClickButtonLogin implements ClickHandler {
     public void onClick(ClickEvent event) {
             RootPanel.get("slot1").clear();
             RootPanel.get("slot2").add(new Label("Logowanie uzytkownika: "+login.getText()+"..."));
-            ChatService.App.getInstance().userAccountExists(login.getText(), password.getText(), new MyAsyncCallback(login));
+            Chat.setRoomName("all");
+            Chat.setPassword(password.getText());
+            ChatService.App.getInstance().userAccountExists(Chat.getRoomName(),login.getText(), password.getText(), new MyAsyncCallback(login));
 
     }
 

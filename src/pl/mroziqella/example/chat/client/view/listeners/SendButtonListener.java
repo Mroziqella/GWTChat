@@ -24,7 +24,7 @@ public class SendButtonListener implements ClickHandler{
     public void onClick(ClickEvent event) {
         allMessages.setText(allMessages.getText()+Chat.getLoginSession()+": "+message.getText()+"\n");
         scrollToBottom(allMessages.getElement());
-        ChatService.App.getInstance().setMessage(Chat.getLoginSession()+": "+message.getText(),new MyAsyncCallback(allMessages));
+        ChatService.App.getInstance().setMessage(Chat.getRoomName(),Chat.getLoginSession()+": "+message.getText(),new MyAsyncCallback(allMessages));
         message.setText("");
 
     }

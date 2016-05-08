@@ -11,12 +11,13 @@ import java.util.*;
 @RemoteServiceRelativePath("ChatService")
 public interface ChatService extends RemoteService {
     // Sample interface method of remote interface
-    void setMessage(String msg);
+    void setMessage(String roomName,String msg);
 
-    boolean userAccountExists(String login,String password)throws InvalidPassword;
+    boolean userAccountExists(String roomName,String login,String password)throws InvalidPassword;
     void addUser(String login, String password);
     Messages getMessages();
-    void removeUserfromTheList(String login);
+    void removeUserfromTheList(String roomName,String login);
+    String isInfo(String login);
 
     /**
      * Utility/Convenience class.

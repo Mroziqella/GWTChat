@@ -13,15 +13,16 @@ public class ChatServiceImpl extends RemoteServiceServlet implements ChatService
 
     // Implementation of sample interface method
 
-    public void setMessage(String message) {
-        Messages.getInstance().addMessage(message);
+    public void setMessage(String roomName,String message) {
+        Messages.getInstance().addMessage(roomName,message);
     }
 
+
     @Override
-    public boolean userAccountExists(String login, String password) throws InvalidPassword{
+    public boolean userAccountExists(String roomName,String login, String password) throws InvalidPassword{
         User user = new UserRepository().getUser(login);
         if (user.getPassword().equals(password)) {
-            Messages.getInstance().addUsersToList(login);
+            Messages.getInstance().addUsersToList(roomName,login);
             return true;
         }
         throw new InvalidPassword("Error in login");
@@ -39,7 +40,12 @@ public class ChatServiceImpl extends RemoteServiceServlet implements ChatService
     }
 
     @Override
-    public void removeUserfromTheList(String login) {
-        Messages.getInstance().removeUser(login);
+    public void removeUserfromTheList(String roomName,String login) {
+        Messages.getInstance().removeUser(roomName,login);
+    }
+
+    @Override
+    public String isInfo(String login) {
+        return Messages.getInstance().isInfo(login);
     }
 }

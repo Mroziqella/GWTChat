@@ -13,38 +13,60 @@ import java.util.logging.*;
 
 public class Messages implements IsSerializable {
     private static Messages ourInstance = new Messages();
-    private LinkedList<String> messages;
-    private LinkedList<String> users;
+    private HashMap<String,LinkedList<String>> messages;
+    private HashMap<String,HashSet<String>> users;
+    private HashMap<String,String> userInfoMessage;
+
     private Messages() {
-        messages = new LinkedList<>();
-        users = new LinkedList<>();
+        messages = new HashMap<>();
+        users = new HashMap<>();
+        userInfoMessage =  new HashMap<>();
+        users.put("all",new HashSet<String>());
+        messages.put("all",new LinkedList<String>());
     }
 
     public static Messages getInstance() {
         return ourInstance;
     }
 
-    public void addMessage(String message) {
+    public void addMessage(String roomName,String message) {
         if(messages.size()>20){
-            messages.removeFirst();
+            messages.get(roomName).removeFirst();
         }
-        this.messages.add(message);
-
+        if(messages.get(roomName)==null){
+            messages.put(roomName,new LinkedList<String>());
+        }
+        this.messages.get(roomName).add(message);
     }
 
 
-    public LinkedList<String> getMessages() {
+    public LinkedList<String> getMessages(String room) {
 
-        return messages;
+        return messages.get(room);
     }
 
-    public LinkedList<String> getUsers() {
-        return users;
+    public HashSet<String> getUsers(String room) {
+        return users.get(room);
     }
-    public void removeUser(String login){
-        users.remove(login);
+    public void removeUser(String room,String login){
+        users.get(room).remove(login);
     }
-    public void addUsersToList(String login){
-        users.add(login);
+
+    public void addUsersToList(String room,String login){
+        if(users.get(room)==null){
+            users.put(room,new HashSet<String>());
+            String path[] = room.split(",");
+            users.get(room).add(path[1]);
+            userInfoMessage.put(path[1],room);
+        }
+        this.users.get(room).add(login);
+    }
+    public String isInfo(String user){
+        if(userInfoMessage.containsKey(user)) {
+            String tmp = userInfoMessage.get(user);
+            userInfoMessage.remove(user);
+            return tmp;
+        }
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package pl.mroziqella.example.chat.client.view;
 
 import com.google.gwt.cell.client.*;
+import com.google.gwt.dom.client.*;
 import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.ui.*;
