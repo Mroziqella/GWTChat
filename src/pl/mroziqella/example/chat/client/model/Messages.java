@@ -57,15 +57,25 @@ public class Messages implements IsSerializable {
     }
 
     public HashSet<String> getUsers(String room) {
-        return users.get(room);
+        String path[] = room.split(",");
+        if (path.length == 2) {
+            if (users.get(room) == null) {
+                return users.get(path[1] + "," + path[0]);
+            } else {
+                return users.get(room);
+            }
+        } else {
+            return users.get(room);
+        }
+
+
     }
 
     public void removeUser(String room, String login) {
         try {
             users.get(room).remove(login);
         } catch (java.lang.NullPointerException e) {
-        }
-        ;
+        };
     }
 
     public void addUsersToList(String room, String login) {
