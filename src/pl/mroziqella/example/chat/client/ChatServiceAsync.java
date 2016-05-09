@@ -18,7 +18,9 @@ public interface ChatServiceAsync {
 
     void addUser(String login, String password, AsyncCallback<Void> async);
 
-    void removeUserfromTheList(String roomName,String login, AsyncCallback<Void> async);
+
 
     void isInfo(String login, AsyncCallback<String> async);
+
+    void removeUserfromTheList(String roomName, String login, AsyncCallback<Void> async);
 }

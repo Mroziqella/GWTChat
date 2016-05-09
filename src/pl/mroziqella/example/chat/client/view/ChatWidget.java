@@ -4,16 +4,19 @@ import com.google.gwt.cell.client.*;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.*;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.*;
+
 import pl.mroziqella.example.chat.client.*;
 import pl.mroziqella.example.chat.client.view.listeners.*;
 import pl.mroziqella.example.chat.client.view.Timer.*;
 
+
 /**
  * Created by Kamil on 04/05/2016.
  */
-public class ChatWidget extends VerticalPanel {
+public class ChatWidget extends VerticalPanel  {
     private TextArea allMessages;
     private TextBox messageBox;
     private CellList<String> allUsersList;

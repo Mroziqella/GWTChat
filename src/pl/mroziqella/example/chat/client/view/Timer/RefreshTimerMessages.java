@@ -5,6 +5,7 @@ import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
+import org.springframework.stereotype.*;
 import pl.mroziqella.example.chat.client.*;
 import pl.mroziqella.example.chat.client.model.*;
 import pl.mroziqella.example.chat.client.view.*;
@@ -69,7 +70,6 @@ public class RefreshTimerMessages extends Timer {
 
 
         }
-
 
         private static class MyAsyncCallbackInfo implements AsyncCallback<String> {
             public void onFailure(Throwable throwable) {

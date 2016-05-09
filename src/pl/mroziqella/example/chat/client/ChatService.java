@@ -12,7 +12,6 @@ import java.util.*;
 public interface ChatService extends RemoteService {
     // Sample interface method of remote interface
     void setMessage(String roomName,String msg);
-
     boolean userAccountExists(String roomName,String login,String password)throws InvalidPassword;
     void addUser(String login, String password);
     Messages getMessages();

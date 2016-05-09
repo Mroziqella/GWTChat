@@ -10,10 +10,14 @@ import pl.mroziqella.example.chat.client.*;
 import pl.mroziqella.example.chat.client.model.*;
 import pl.mroziqella.example.chat.client.view.*;
 
+import java.util.*;
+
 /**
  * Created by Kamil on 05/05/2016.
  */
 public class ClickButtonLogin implements ClickHandler {
+
+
     private TextBox login;
     private TextBox password;
 
